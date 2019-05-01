@@ -27,5 +27,10 @@ namespace laboratorio7
             if (partes[7] != "") nem = Convert.ToDouble(partes[7]);
             numeroDatos = (int) Convert.ToDouble(partes[8]);
         }
+
+        public override string ToString()
+        {
+            return $"{administration} | PSU : {psu} | NEM {nem}";
+        }
     }
 }
