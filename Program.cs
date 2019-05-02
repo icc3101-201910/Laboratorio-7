@@ -43,6 +43,7 @@ namespace laboratorio7
                 Console.WriteLine("[0] Salir del programa");
                 Console.WriteLine("[1] Consultar información de comuna");
                 Console.WriteLine("[2] Estadísticas");
+                Console.WriteLine("[3] Calcular Coeficiente de Pearson");
                 Console.WriteLine("");
 
                 string opcion = Console.ReadLine();
@@ -122,6 +123,45 @@ namespace laboratorio7
                             Console.WriteLine("Volviendo al menú principal...");
                             break;
                         }
+                    }
+                }
+                else if (opcion == "3")
+                {
+                    // x = nem, y = psu
+
+                    int n = datos.Count;
+
+                    // Calculo del numerador
+                    double sumXiYi = (from fila in datos select fila.nem * fila.psu).Sum();
+                    double sumXi = (from fila in datos select fila.nem).Sum();
+                    double sumYi = (from fila in datos select fila.psu).Sum();
+                    double numerador = n * sumXiYi - sumXi * sumYi;
+
+                    // Calculo del denominador
+                    double sumXiXi = (from fila in datos select fila.nem * fila.nem).Sum();
+                    double sumYiYi = (from fila in datos select fila.psu * fila.psu).Sum();
+                    double denominador = Math.Sqrt(n * sumXiXi - sumXi * sumXi) * Math.Sqrt(n * sumYiYi - sumYi * sumYi);
+
+                    double rxy = numerador / denominador;
+
+                    Console.WriteLine($"El coeficiente de correlación de Pearson es: {rxy}");
+
+
+
+                    if (rxy >= 0) {
+                        Console.WriteLine("Existe una correlación positiva");
+                    } else {
+                        Console.WriteLine("Existe una correlación negativa");
+                    }
+
+                    // Aquí considero que si es mayor de 0.9, es correlación perfecta
+                    if (Math.Abs(rxy) - 0.1 >= 0.9) {
+                        Console.WriteLine("Que además es perfecta!");
+                    } else if (Math.Abs(rxy) < 0.5) {
+                        Console.WriteLine("El resultado NEM no explica tanto el resultado PSU");
+                    } else if (Math.Abs(rxy) > 0.5)
+                    {
+                        Console.WriteLine("La tendencia es que a mejor NEM, mejor PSU");
                     }
                 }
             }
