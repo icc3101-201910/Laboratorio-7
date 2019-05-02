@@ -30,12 +30,19 @@ namespace laboratorio7
 
             // -- Menú --
 
+            var estadisticas = new Dictionary<string, Estadistica>();
+            estadisticas.Add("1", new PromedioPorRegion());
+            estadisticas.Add("2", new PromedioPorTipoEstablecimiento());
+            estadisticas.Add("3", new MejoresPsu());
+            estadisticas.Add("4", new MejoresNem());
+
             while (true)
             {
                 Console.WriteLine("");
                 Console.WriteLine(" -- Menú --");
                 Console.WriteLine("[0] Salir del programa");
                 Console.WriteLine("[1] Consultar información de comuna");
+                Console.WriteLine("[2] Estadísticas");
                 Console.WriteLine("");
 
                 string opcion = Console.ReadLine();
@@ -80,16 +87,41 @@ namespace laboratorio7
 
                         foreach (Fila fila in filasDeComuna) Console.WriteLine(fila);
 
-                        double datosTotales = filasDeComuna.Select(fila => fila.numeroDatos).Sum();
-                        double sumaPsu = filasDeComuna.Select(fila => fila.psu * fila.numeroDatos).Sum();
-                        double sumaNem = filasDeComuna.Select(fila => fila.nem * fila.numeroDatos).Sum();
-
-                        Console.WriteLine($"Promedio PSU: {sumaPsu / datosTotales}");
-                        Console.WriteLine($"Promedio NEM: {sumaNem / datosTotales}");
+                        PromedioNemPsu promedio = new PromedioNemPsu();
+                        promedio.MostrarEstadistica(filasDeComuna.ToList());
                     }
                     else
                     {
                         Console.WriteLine("No se encontró información para la comuna ingresada.");
+                    }
+                }
+                else if (opcion == "2")
+                {
+                    while(true) 
+                    {
+                        // Imprimimos el menú de estadísticas
+                        Console.WriteLine("\nIngresa la estadística que quieres:");
+
+                        foreach (var estadistica in estadisticas)
+                        {
+                            Console.WriteLine($"[{estadistica.Key}] {estadistica.Value.GetNombre()}");
+                        }
+                            
+                        Console.WriteLine("[Cualquier otra cosa] Volver al menú principal\n");
+
+                        // Solicitamos una opción
+                        string eleccionEstadistica = Console.ReadLine();
+
+                        // Si existe, mostramos la estadistica
+                        if (estadisticas.ContainsKey(eleccionEstadistica))
+                        {
+                            estadisticas[eleccionEstadistica].MostrarEstadistica(datos);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Volviendo al menú principal...");
+                            break;
+                        }
                     }
                 }
             }

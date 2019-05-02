@@ -35,6 +35,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Fila.cs" />
+    <Compile Include="PromedioPorRegion.cs" />
+    <Compile Include="Estadistica.cs" />
+    <Compile Include="PromedioNemPsu.cs" />
+    <Compile Include="PromedioPorTipoEstablecimiento.cs" />
+    <Compile Include="MejoresPsu.cs" />
+    <Compile Include="MejoresNem.cs" />
+    <Compile Include="PromedioComuna.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data.csv">
